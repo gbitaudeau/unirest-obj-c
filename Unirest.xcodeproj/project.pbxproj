@@ -157,7 +157,6 @@
 				A9E78BE516E9803E006B80FD /* HttpResponse */,
 				A9E78BAF16E9801F006B80FD /* Supporting Files */,
 			);
-			name = Unirest;
 			path = Unirest;
 			sourceTree = "<group>";
 		};
@@ -176,7 +175,6 @@
 				A9E78BCA16E9801F006B80FD /* UnirestTests.m */,
 				A9E78BC416E9801F006B80FD /* Supporting Files */,
 			);
-			name = UnirestTests;
 			path = UnirestTests;
 			sourceTree = "<group>";
 		};
@@ -423,6 +421,7 @@
 				DSTROOT = /tmp/Unirest.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Unirest/Unirest-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Unirest;
 				SKIP_INSTALL = YES;
@@ -436,6 +435,7 @@
 				DSTROOT = /tmp/Unirest.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Unirest/Unirest-Prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Unirest;
 				SKIP_INSTALL = YES;
