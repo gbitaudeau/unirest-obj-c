@@ -30,5 +30,6 @@
 @synthesize code = _code;
 @synthesize rawBody = _rawBody;
 @synthesize headers = _headers;
+@synthesize error = _error;
 
 @end

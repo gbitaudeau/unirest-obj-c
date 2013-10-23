@@ -153,9 +153,6 @@
                 
                 // Close
                 [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
-                
-                NSString* newStr = [[NSString alloc]initWithData:body encoding:NSUTF8StringEncoding];
-                NSLog(@"%@", newStr);
             } else {
                 NSString* querystring = [HttpClientHelper dictionaryToQuerystring:parameters order:parametersOrder];
                 body = [NSMutableData dataWithData:[querystring dataUsingEncoding:NSUTF8StringEncoding]];
@@ -182,6 +179,7 @@
     [res setCode:[response statusCode]];
     [res setHeaders:[response allHeaderFields]];
     [res setRawBody:data];
+    [res setError:error];
     
     return res;
 }

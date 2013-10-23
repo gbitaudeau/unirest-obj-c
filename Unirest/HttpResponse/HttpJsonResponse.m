@@ -34,16 +34,28 @@
     [self setCode:[httpResponse code]];
     [self setHeaders:[httpResponse headers]];
     [self setRawBody:[httpResponse rawBody]];
+    [self setError:[httpResponse error]];
     
-    JsonNode* body = [[JsonNode alloc] init];
-    
-    NSError * error = nil;
-    id json = [NSJSONSerialization JSONObjectWithData:[httpResponse rawBody] options:NSJSONReadingMutableLeaves error:&error];
-    
-    if ([json isKindOfClass:[NSArray class]]) {
-        [body setArray:json];
-    } else {
-        [body setObject:json];
+    JsonNode* body = nil;
+    if (self.error == nil) {
+        body = [[JsonNode alloc] init];
+        
+        NSError * error = nil;
+        id json = [NSJSONSerialization JSONObjectWithData:[httpResponse rawBody] options:0 error:&error];
+        
+        if (error == nil) {
+            if ([json isKindOfClass:[NSArray class]]) {
+                [body setArray:json];
+            } else {
+                [body setObject:json];
+            }
+        } else {
+            
+            NSLog(@"NSJSONSerialization error body : %@", [httpResponse rawBody]);
+            body = nil;
+            NSLog(@"NSJSONSerialization error : %@", [error description]);
+            [self setError:error];
+        }
     }
     
     [self setBody:body];

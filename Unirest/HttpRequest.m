@@ -28,7 +28,7 @@
 
 @interface HttpRequest()
 
-- (void)invokeAsync:(id (^)(void))asyncBlock resultBlock:(void (^)(id))resultBlock errorBlock:(void (^)(id))errorBlock;
+- (void)invokeAsync:(HttpResponse * (^)(void))asyncBlock resultBlock:(void (^)(id))resultBlock errorBlock:(void (^)(id))errorBlock;
 
 @end
 
@@ -41,13 +41,16 @@
 
 // invokeAsync snippet got from: https://gist.github.com/raulraja/1176022
 
-- (void)invokeAsync:(id (^)(void))asyncBlock resultBlock:(void (^)(id))resultBlock errorBlock:(void (^)(id))errorBlock {
+- (void)invokeAsync:(HttpResponse * (^)(void))asyncBlock resultBlock:(void (^)(id))resultBlock errorBlock:(void (^)(id))errorBlock {
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_async(queue, ^{
-        id result = nil;
+        HttpResponse * result = nil;
         id error = nil;
         @try {
             result = asyncBlock();
+            if (result.error != nil) {
+                error = result.error;
+            }
         } @catch (NSException *exception) {
             NSLog(@"caught exception: %@", exception);
             error = exception;
@@ -55,7 +58,9 @@
         // tell the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             if (error != nil) {
-                errorBlock(error);
+                if (errorBlock != nil) {
+                    errorBlock(error);
+                }
             } else {
                 resultBlock(result);
             }
@@ -83,10 +88,10 @@
     return [[HttpStringResponse alloc] initWithSimpleResponse:response];
 }
 
--(void) asStringAsync:(void (^)(HttpStringResponse*)) response {
+-(void) asStringAsync:(void (^)(HttpStringResponse*)) response withError:(void (^)(id))errorBlock {
     [self invokeAsync:^{
         return [self asString];
-    }     resultBlock:response errorBlock:nil];
+    }     resultBlock:response errorBlock:errorBlock];
 }
 
 -(HttpBinaryResponse*) asBinary {
@@ -94,10 +99,10 @@
     return [[HttpBinaryResponse alloc] initWithSimpleResponse:response];
 }
 
--(void) asBinaryAsync:(void (^)(HttpBinaryResponse*)) response {
+-(void) asBinaryAsync:(void (^)(HttpBinaryResponse*)) response withError:(void (^)(id))errorBlock {
     [self invokeAsync:^{
         return [self asBinary];
-    }     resultBlock:response errorBlock:nil];
+    }     resultBlock:response errorBlock:errorBlock];
 }
 
 -(HttpJsonResponse*) asJson {
@@ -105,10 +110,10 @@
     return [[HttpJsonResponse alloc] initWithSimpleResponse:response];
 }
 
--(void) asJsonAsync:(void (^)(HttpJsonResponse*)) response {
+-(void) asJsonAsync:(void (^)(HttpJsonResponse*)) response withError:(void (^)(id))errorBlock {
     [self invokeAsync:^{
         return [self asJson];
-    }     resultBlock:response errorBlock:nil];
+    }     resultBlock:response errorBlock:errorBlock];
 }
 
 @end

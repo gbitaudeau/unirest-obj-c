@@ -51,12 +51,12 @@ typedef enum HttpMethod
 -(HttpRequest*) initWithSimpleRequest:(HttpMethod) httpMethod url:(NSString*) url headers:(NSDictionary*) headers;
 
 -(HttpStringResponse*) asString;
--(void) asStringAsync:(void (^)(HttpStringResponse*)) response;
+-(void) asStringAsync:(void (^)(HttpStringResponse*)) response withError:(void (^)(id))errorBlock;
 
 -(HttpBinaryResponse*) asBinary;
--(void) asBinaryAsync:(void (^)(HttpBinaryResponse*)) response;
+-(void) asBinaryAsync:(void (^)(HttpBinaryResponse*)) response withError:(void (^)(id))errorBlock;
 
 -(HttpJsonResponse*) asJson;
--(void) asJsonAsync:(void (^)(HttpJsonResponse*)) response;
+-(void) asJsonAsync:(void (^)(HttpJsonResponse*)) response withError:(void (^)(id))errorBlock;
 
 @end

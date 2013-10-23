@@ -28,11 +28,12 @@
     int _code;
     NSDictionary* _headers;
     NSData* _rawBody;
-    
+    NSError* _error;
 }
 
 @property(readwrite) int code;
 @property(readwrite) NSDictionary* headers;
 @property(readwrite) NSData* rawBody;
+@property(readwrite) NSError* error;
 
 @end
