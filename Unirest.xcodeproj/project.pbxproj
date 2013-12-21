@@ -391,7 +391,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.0;
 			};
 			name = Debug;
 		};
@@ -412,7 +412,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos7.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -424,7 +424,6 @@
 				DSTROOT = /tmp/Unirest.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Unirest/Unirest-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Unirest;
 				SKIP_INSTALL = YES;
@@ -438,7 +437,6 @@
 				DSTROOT = /tmp/Unirest.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Unirest/Unirest-Prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = Unirest;
 				SKIP_INSTALL = YES;

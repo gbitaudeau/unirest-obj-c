@@ -56,15 +56,13 @@
             error = exception;
         }
         // tell the main thread
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (error != nil) {
-                if (errorBlock != nil) {
-                    errorBlock(error);
-                }
-            } else {
-                resultBlock(result);
+        if (error != nil) {
+            if (errorBlock != nil) {
+                errorBlock(error);
             }
-        });
+        } else {
+            resultBlock(result);
+        };
     });
 }
 
