@@ -121,10 +121,10 @@
             NSDictionary* parameters = [requestWithBody parameters];
             NSArray* parametersOrder = [requestWithBody parametersOrder];
             
-            bool isBinary = [HttpClientHelper hasBinaryParameters:parameters];
-            if (isBinary) {
+            //bool isBinary = [HttpClientHelper hasBinaryParameters:parameters];
+            //if (isBinary) {
                 
-                [headers setObject:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", BOUNDARY] forKey:@"content-type"];
+                [headers setObject:[NSString stringWithFormat:@"multipart/form-data; boundary=%@", BOUNDARY] forKey:@"Content-Type"];
                 
                 id<NSFastEnumeration> enumerator = parameters;
                 if (parametersOrder != nil) {
@@ -134,29 +134,30 @@
                 for(id key in enumerator) {
                     id value = [parameters objectForKey:key];
                     if ([value isKindOfClass:[NSURL class]] && value != nil) { // Don't encode files and null values
-                        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
+                        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", BOUNDARY] dataUsingEncoding:NSASCIIStringEncoding]];
                         NSString* filename = [[value absoluteString] lastPathComponent];
                         
                         NSData* data = [NSData dataWithContentsOfURL:value];
                         
-                        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, filename] dataUsingEncoding:NSUTF8StringEncoding]];
-                        [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", data.length] dataUsingEncoding:NSUTF8StringEncoding]];
-                        [body appendData:[@"Content-Type: image/jpg\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-                        [body appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+                        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, filename] dataUsingEncoding:NSASCIIStringEncoding]];
+                        [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", data.length] dataUsingEncoding:NSASCIIStringEncoding]];
+                        [body appendData:[@"Content-Type: image/jpg\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
+                        [body appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
                         [body appendData:data];
                     } else {
-                        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
-                        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", key] dataUsingEncoding:NSUTF8StringEncoding]];
+                        [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n", BOUNDARY] dataUsingEncoding:NSASCIIStringEncoding]];
+                        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n", key] dataUsingEncoding:NSASCIIStringEncoding]];
+                        [body appendData:[@"Content-Type: text/plain; charset=utf-8\r\n\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
                         [body appendData:[[NSString stringWithFormat:@"%@", value] dataUsingEncoding:NSUTF8StringEncoding]];
                     }
                 }
                 
                 // Close
-                [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", BOUNDARY] dataUsingEncoding:NSUTF8StringEncoding]];
-            } else {
-                NSString* querystring = [HttpClientHelper dictionaryToQuerystring:parameters order:parametersOrder];
-                body = [NSMutableData dataWithData:[querystring dataUsingEncoding:NSUTF8StringEncoding]];
-            }
+                [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", BOUNDARY] dataUsingEncoding:NSASCIIStringEncoding]];
+            //} else {
+            //    NSString* querystring = [HttpClientHelper dictionaryToQuerystring:parameters order:parametersOrder];
+            //   body = [NSMutableData dataWithData:[querystring dataUsingEncoding:NSUTF8StringEncoding]];
+            //}
         } else {
             // Has a body
             body = [NSMutableData dataWithData:[requestWithBody body]];
