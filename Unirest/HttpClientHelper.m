@@ -140,7 +140,7 @@
                         NSData* data = [NSData dataWithContentsOfURL:value];
                         
                         [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\r\n", key, filename] dataUsingEncoding:NSASCIIStringEncoding]];
-                        [body appendData:[[NSString stringWithFormat:@"Content-Length: %d\r\n", data.length] dataUsingEncoding:NSASCIIStringEncoding]];
+                        [body appendData:[[NSString stringWithFormat:@"Content-Length: %lu\r\n", (unsigned long)data.length] dataUsingEncoding:NSASCIIStringEncoding]];
                         [body appendData:[@"Content-Type: image/jpg\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
                         [body appendData:[@"Content-Transfer-Encoding: binary\r\n\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
                         [body appendData:data];

@@ -25,13 +25,14 @@
 
 @interface HttpResponse : NSObject {
     
-    int _code;
+    NSInteger _code;
     NSDictionary* _headers;
     NSData* _rawBody;
     NSError* _error;
 }
 
-@property(readwrite) int code;
+@property(readwrite) NSInteger
+code;
 @property(readwrite) NSDictionary* headers;
 @property(readwrite) NSData* rawBody;
 @property(readwrite) NSError* error;
